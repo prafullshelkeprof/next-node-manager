@@ -1,6 +1,10 @@
-const Home = function Home() {
+import ResponsiveGraph from "@/components/ResponsiveGraph/ResponsiveGraph";
+
+const Home = () => {
   return (
-    <h1>Hello, Next.js!</h1>
-  )
-}
+    <>
+      <ResponsiveGraph />
+    </>
+  );
+};
 export default Home;
