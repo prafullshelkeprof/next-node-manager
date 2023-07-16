@@ -1,5 +1,5 @@
 import { HierarchyPointNode } from "@visx/hierarchy/lib/types";
-import type { NodeShape } from "../NodeDetails";
+import type { NodeShape } from "../NodeConfig";
 import { Group } from "@visx/group";
 export const background = "#306c90";
 const width = 40;

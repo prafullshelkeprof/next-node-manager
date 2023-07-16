@@ -1,20 +1,20 @@
 "use client";
-import React, { useMemo } from "react";
+import React, { useState } from "react";
 import { Group } from "@visx/group";
-import {
-  HierarchyPointNode,
-} from "@visx/hierarchy/lib/types";
-import type { NodeShape } from "../NodeDetails";
+import { HierarchyPointNode } from "@visx/hierarchy/lib/types";
+import type { NodeShape } from "../NodeConfig";
 import RootNode from "../RootNode/RootNode";
+import NodeDetails from "@/components/NodeDetails/NodeDetails";
 
 const citrus = "#ddf163";
 const white = "#ffffff";
 export const background = "#306c90";
 
+
 const BaseNode = ({ node }: { node: HierarchyPointNode<NodeShape> }) => {
   const isRoot = node.depth === 0;
   const isParent = !!node.children;
-
+  const [selectedNode, setSelectedNode] = useState<NodeShape>();
   if (isRoot) return <RootNode node={node} />;
 
   return (
@@ -25,7 +25,7 @@ const BaseNode = ({ node }: { node: HierarchyPointNode<NodeShape> }) => {
           fill={background}
           stroke={isParent ? white : citrus}
           onClick={() => {
-            alert(`clicked: ${JSON.stringify(node.data.name)}`);
+            setSelectedNode(node.data);
           }}
         />
       )}
@@ -39,8 +39,16 @@ const BaseNode = ({ node }: { node: HierarchyPointNode<NodeShape> }) => {
       >
         {node.data.name}
       </text>
+      {selectedNode && (
+        <NodeDetails
+          selectedNode={selectedNode}
+          onClose={() => {
+            setSelectedNode(undefined);
+          }}
+        />
+      )}
     </Group>
   );
-}
+};
 
 export default BaseNode;
