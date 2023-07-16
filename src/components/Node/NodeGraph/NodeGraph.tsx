@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Group } from "@visx/group";
 import { Cluster, hierarchy } from "@visx/hierarchy";
 import {
@@ -7,23 +7,36 @@ import {
 } from "@visx/hierarchy/lib/types";
 import { LinkVertical } from "@visx/shape";
 import { LinearGradient } from "@visx/gradient";
-import type { NodeShape, DendrogramProps } from "../NodeDetails";
+import type { NodeShape, DendrogramProps } from "../NodeConfig";
 import {
   aqua,
   green,
   background,
   merlinsbeard,
-  clusterData,
-} from "../NodeDetails";
+} from "../NodeConfig";
 import BaseNode from "../BaseNode/BaseNode";
 const defaultMargin = { top: 40, left: 0, right: 0, bottom: 40 };
-
+type TNodeVisx = ReturnType<typeof hierarchy<NodeShape>>;
 const NodeGraph = ({
   width,
   height,
   margin = defaultMargin,
 }: DendrogramProps) => {
-  const data = useMemo(() => hierarchy<NodeShape>(clusterData), []);
+  const [nodeData, setNodeData] =
+    useState<TNodeVisx>({} as TNodeVisx);
+  const getNodes = async () => {
+    const response = await fetch("http://localhost:8000/", {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+      },
+    });
+    const data = await response.json();
+    setNodeData(hierarchy(data.message as NodeShape));
+  };
+  useEffect(() => {
+    getNodes();
+  }, []);
   const xMax = width - margin.left - margin.right;
   const yMax = height - margin.top - margin.bottom;
 
@@ -31,7 +44,7 @@ const NodeGraph = ({
     <svg width={width} height={height}>
       <LinearGradient id="top" from={green} to={aqua} />
       <rect width={width} height={height} rx={14} fill={background} />
-      <Cluster<NodeShape> root={data} size={[xMax, yMax]}>
+      <Cluster<NodeShape> root={nodeData} size={[xMax, yMax]}>
         {(cluster) => (
           <Group top={margin.top} left={margin.left}>
             {cluster.links().map((link, i) => (
