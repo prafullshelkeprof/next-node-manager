@@ -1,13 +1,18 @@
 import { HierarchyPointNode } from "@visx/hierarchy/lib/types";
-import type { NodeShape } from "../NodeConfig";
+import type { NodeShape, background } from "../NodeConfig";
 import { Group } from "@visx/group";
-export const background = "#306c90";
 const width = 40;
 const height = 20;
 const centerX = -width / 2;
 const centerY = -height / 2;
 
-const RootNode = ({ node }: { node: HierarchyPointNode<NodeShape> }) => {
+const RootNode = ({
+  node,
+  onRootClick,
+}: {
+  node: HierarchyPointNode<NodeShape>;
+  onRootClick?: () => void;
+}) => {
   return (
     <Group top={node.y} left={node.x}>
       <rect
@@ -16,6 +21,9 @@ const RootNode = ({ node }: { node: HierarchyPointNode<NodeShape> }) => {
         y={centerY}
         x={centerX}
         fill="url('#top')"
+        onClick={() => {
+          onRootClick?.();
+        }}
       />
       <text
         dy=".33em"
