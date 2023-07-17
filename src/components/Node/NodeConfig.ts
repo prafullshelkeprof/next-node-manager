@@ -8,7 +8,7 @@ type TNODES = keyof typeof NODES
 interface NodeShape {
   name: string;
   children?: NodeShape[];
-  id: number;
+  id: string;
   departmentName?: string[];
   preferredLang?: string[];
   nodeType?: TNODES;
