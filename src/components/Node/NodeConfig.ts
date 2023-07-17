@@ -25,10 +25,13 @@ const aqua = "#37ac8c";
 const background = "#306c90";
 const green = "#79d259";
 const merlinsbeard = "#f7f7f3";
-
+const citrus = "#ddf163";
+const white = "#ffffff";
 export {
   aqua,
   green,
+  white,
+  citrus,
   background,
   merlinsbeard,
   NODES

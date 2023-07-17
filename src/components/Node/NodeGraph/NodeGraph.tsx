@@ -56,7 +56,13 @@ const NodeGraph = ({
                 />
               ))}
               {cluster.descendants().map((node, i) => (
-                <BaseNode key={`cluster-node-${i}`} node={node} />
+                <BaseNode
+                  key={`cluster-node-${i}`}
+                  node={node}
+                  onUpdate={() => {
+                    getNodes();
+                  }}
+                />
               ))}
             </Group>
           )}
