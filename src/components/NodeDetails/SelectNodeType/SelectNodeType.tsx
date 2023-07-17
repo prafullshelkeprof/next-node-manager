@@ -24,6 +24,7 @@ const NodeDetails = (props: INodeDetails) => {
   };
 
   const onNewNodeCreation = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const requestBody = {
       name: newNodeName,
       nodeType: nodeTypeVal,
@@ -51,7 +52,6 @@ const NodeDetails = (props: INodeDetails) => {
         onSuccess();
       }
     } catch (err) {
-      e.preventDefault();
       console.error("Error:", err);
     }
   };

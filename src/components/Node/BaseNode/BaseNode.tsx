@@ -2,19 +2,23 @@
 import React, { useState } from "react";
 import { Group } from "@visx/group";
 import { HierarchyPointNode } from "@visx/hierarchy/lib/types";
-import type { NodeShape,  } from "../NodeConfig";
+import { type NodeShape, background, white, citrus } from "../NodeConfig";
 import RootNode from "../RootNode/RootNode";
 import NodeDetails from "@/components/NodeDetails/NodeDetails";
 
-const citrus = "#ddf163";
-const white = "#ffffff";
-export const background = "#306c90";
 
-const BaseNode = ({ node }: { node: HierarchyPointNode<NodeShape> }) => {
+
+const BaseNode = ({
+  node,
+  onUpdate,
+}: {
+  node: HierarchyPointNode<NodeShape>;
+  onUpdate?: () => void;
+}) => {
   const isRoot = node.depth === 0;
   const isParent = !!node.children;
   const [selectedNode, setSelectedNode] = useState<NodeShape>();
- 
+
   return (
     <>
       {isRoot ? (
@@ -54,6 +58,7 @@ const BaseNode = ({ node }: { node: HierarchyPointNode<NodeShape> }) => {
           selectedNode={selectedNode}
           isRoot={isRoot}
           onClose={() => {
+            onUpdate?.();
             setSelectedNode(undefined);
           }}
         />
